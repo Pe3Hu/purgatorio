@@ -76,13 +76,13 @@ func init_wertmarkes() -> void:
 		dict.wertmarke[source].append(value)
 		
 	var arr_ = []
-	#arr_.append({weight: 3, value: 3})
-	#arr_.append({weight: 7, value: 7})
-	#arr_.append({weight: 15, value: 15})
-	arr_.append({"weight": 4, "value": 4000})
-	arr_.append({"weight": 3, "value": 2500})
-	arr_.append({"weight": 3, "value": 2000})
-	var r = backpacking_options(arr_, 10)
+	arr_.append({"weight": 3, "value": 3})
+	arr_.append({"weight": 7, "value": 7})
+	arr_.append({"weight": 15, "value": 15})
+	#arr_.append({"weight": 4, "value": 4000})
+	#arr_.append({"weight": 3, "value": 2500})
+	#arr_.append({"weight": 3, "value": 2000})
+	var r = backpacking_options(arr_, 41)
 	print(r)
 
 
@@ -385,44 +385,65 @@ func get_gaussian_distribution(scale_: int):
 
 
 func backpacking_options(arr_: Array, max_capacity: int):
+	var indexs = []
+	var tree = [[]]
+	
 	for _i in arr_.size():
-		pass
-#
-#    int[,] arr = new int[weights.Length + 1, maxCapacity + 1];
-#
-#    //проходим по всем вещам
-#    for (int i = 0; i <= weights.Length; i++)
-#    {
-#        //проходим по всем рюкзакам
-#        for (int j = 0; j <= maxCapacity; j++)
-#        {
-#            //попадаем в ячейку пустышку
-#            if (i == 0 || j == 0)
-#            {
-#                arr[i, j] = 0;
-#            }
-#            else
-#            {   
-#                //если вес текущей вещи больше размера рюкзака
-#                //казалось бы откуда значение возьмется для первой вещи 
-#                //при таком условии. А оно возьмется из ряда пустышки
-#                if (weights[i - 1] > j)
-#                {
-#                    arr[i, j] = arr[i - 1, j];
-#                }
-#                else
-#                {
-#                    //здесь по формуле. Значение над текущей ячейкой
-#                    var prev = arr[i - 1, j];
-#                    //Значение по вертикали: ряд вверх
-#                    //и по горизонтали: вес рюкзака - вес текущей вещи
-#                    var byFormula = values[i - 1] + arr[i - 1, j - weights[i - 1]];
-#                    arr[i, j] = Math.Max(prev, byFormula);
-#                }
-#            }
-#        }
-#    }
-#
-#    // возвращаем правую нижнюю ячейку
-#    return arr[weights.Length, maxCapacity];
-#}
+		var leaf = arr_[_i]
+		var branch_ = {}
+		branch_.indexs = [_i]
+		branch_.weight = leaf.weight
+		tree[0].append(branch_)
+	
+	var flag = true
+	
+	while flag:
+		flag = false
+		var branchs = tree.back()
+		var buds = []
+		
+		for branch in branchs:
+			var end_branch = true
+			
+			for _i in arr_.size():
+				if _i >= branch.indexs.back():
+					var leaf = arr_[_i]
+					var branch_ = {}
+					branch_.indexs = []
+					branch_.indexs.append_array(branch.indexs)
+					branch_.indexs.append(_i)
+					branch_.weight = leaf.weight+branch.weight
+					
+					if max_capacity > branch_.weight:
+						buds.append(branch_) 
+						flag = true
+						end_branch = false
+			
+			if end_branch:
+				indexs.append((branch.indexs))
+		
+		if buds.size() > 0:
+			tree.append(buds)
+		else:
+			flag = false
+	
+	var datas = []
+	
+	for indexs_ in indexs:
+		var data = {}
+		data.indexs = indexs_
+		data.value = 0
+		
+		for index in indexs_:
+			data.value += arr_[index].value
+		
+		datas.append(data)
+	
+	datas.sort_custom(func(a, b): return a.value > b.value)
+	var bests = []
+	
+	for data in datas:
+		if data.value == datas.front().value:
+			bests.append(data.indexs)
+	
+	return bests
