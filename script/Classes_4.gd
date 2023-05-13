@@ -1,35 +1,18 @@
 extends Node
 
 
-#Угроза bedrohung
-class Bedrohung:
-	var obj = {}
-	var arr = {}
-	var scene = {}
-
-
-	func _init(input_) -> void:
-		obj.diener = input_.diener
-		arr.wertmarke = input_.wertmarkes
-		init_scene()
-
-
-	func init_scene() -> void:
-		scene.myself = Global.scene.wertmarke.instantiate()
-		scene.myself.set_parent(self)
-
-
 #Жетон wertmarke
 class Wertmarke:
+	var num = {}
 	var word = {}
 	var obj = {}
 	var scene = {}
 
 
 	func _init(input_) -> void:
-		word.value = input_.value
-		word.target = input_.target
-		obj.bedrohung = null
+		num.value = input_.value
+		word.source = input_.source
+		obj.stapel = null
 		init_scene()
 
 
@@ -38,8 +21,64 @@ class Wertmarke:
 		scene.myself.set_parent(self)
 
 
-#Боец kämpfer
-class Kämpfer:
+#стек жетонов stapel
+class Stapel:
+	var arr = {}
+	var obj = {}
+	var scene = {}
+
+
+	func _init(input_) -> void:
+		arr.parent = input_.parents
+		obj.wertmarke = input_.wertmarke
+		obj.absicht = input_.absicht
+		obj.target = null
+		init_scene()
+
+
+	func init_scene() -> void:
+		scene.myself = Global.scene.stapel.instantiate()
+		scene.myself.set_parent(self)
+
+
+#Намерение absicht
+class Absicht:
+	var dict = {}
+	var arr = {}
+	var scene = {}
+
+
+	func _init(input_) -> void:
+		dict.condition = input_.condition
+		arr.bedrohung = input_.bedrohungs
+		arr.stapel = []
+		init_scene()
+
+
+	func init_scene() -> void:
+		scene.myself = Global.scene.absicht.instantiate()
+		scene.myself.set_parent(self)
+
+
+#Угроза bedrohung
+class Bedrohung:
+	var num = {}
+	var word = {}
+	var obj = {}
+	var scene = {}
+
+
+	func _init(input_) -> void:
+		obj.parent = input_.diener
+		num.value = input_.value
+		word.source = input_.source
+		word.side = input_.side
+		word.target = input_.target
+		word.scope = input_.scope
+
+
+#Повар koch 
+class Koch:
 	var word = {}
 	var obj = {}
 	var scene = {}
@@ -57,10 +96,24 @@ class Kämpfer:
 
 
 	func create_wertmarkes_based_on_damage() -> void:
-		var damage = 15#obj.diener.obj.schaufensterpuppe.num.indicator.damage.current
-		var source = "physical"
-		var values = Global.dict.wertmarke[source]
-		var options = []
+		var input = {}
+		input.diener = obj.diener
+		input.side = obj.diener.obj.wirt.get_side()
+		input.target = "min hp"
+		input.scope = "diener"
+		var damage = obj.diener.obj.schaufensterpuppe.num.indicator.damage.current
+		var sources = ["physical","fire"]
+		sources.shuffle()
+		input.source = sources.front()#"physical"
+		var values = Global.dict.wertmarke[input.source]
+		var kits = Global.backpacking_options(values, damage)
 		
-		
+		if kits.size() > 0:
+			input.values = kits.front()
+			
+			for value in input.values:
+				input.value = value
+				var bedrohung = Classes_4.Bedrohung.new(input)
+				obj.diener.obj.wirt.obj.kessel.obj.küche.obj.kellner.arr.bedrohung.append(bedrohung)
+				
 		#print(damage,obj.diener.obj.schaufensterpuppe.num.indicator.damage)

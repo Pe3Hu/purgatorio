@@ -22,13 +22,17 @@ class Kessel:
 		obj.küche.scene.myself.add_kessel(self)
 
 
-#Повар
-class Koch:
+#Повар kellner
+class Kellner:
+	var arr = {}
+	var dict = {}
 	var obj = {}
 
 
 	func _init(input_) -> void:
 		obj.küche = input_.küche
+		arr.bedrohung = []
+		dict.condition = {}
 
 
 	func get_kessel_for(wirt_) -> void:
@@ -44,6 +48,29 @@ class Koch:
 		for gottheit in obj.küche.dict.kessel.keys():
 			for kessel in obj.küche.dict.kessel[gottheit]:
 				kessel.scene.myself.stir()
+		
+		redistribute_bedrohungs()
+
+
+	func redistribute_bedrohungs() -> void:
+		while arr.bedrohung.size() > 0:
+			var bedrohung = arr.bedrohung.pop_front()
+			var condition = {}
+			condition.side = bedrohung.word.side
+			condition.target = bedrohung.word.target
+			condition.scope = bedrohung.word.scope
+			
+			if dict.condition.keys().has(condition):
+				dict.condition[condition].append(bedrohung)
+			else:
+				dict.condition[condition] = [bedrohung]
+		
+		for condition in dict.condition.keys():
+			var input = {}
+			input.condition = condition
+			input.bedrohungs = dict.condition[condition]
+			var absicht = Classes_4.Absicht.new(input)
+			obj.küche.scene.myself.add_absicht(absicht)
 
 
 #Кухня küche
@@ -58,14 +85,14 @@ class Küche:
 		obj.hölle = input_.hölle
 		dict.side = {}
 		dict.kessel = {}
-		init_koch()
+		init_kellner()
 		init_scene()
 
 
-	func init_koch() -> void:
+	func init_kellner() -> void:
 		var input = {}
 		input.küche = self
-		obj.koch = Classes_1.Koch.new(input)
+		obj.kellner = Classes_1.Kellner.new(input)
 
 
 	func init_scene() -> void:
@@ -87,7 +114,7 @@ class Küche:
 			dict.kessel[gottheit_] = []
 			
 			for wirt in gottheit_.arr.wirt:
-				obj.koch.get_kessel_for(wirt)
+				obj.kellner.get_kessel_for(wirt)
 		else:
 			print("error add_gottheit: gottheits size > 2")
 

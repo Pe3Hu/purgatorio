@@ -13,16 +13,20 @@ alignment = 1
 
 [node name="kessels" type="VBoxContainer" parent="left"]
 layout_mode = 2
+alignment = 1
 
-[node name="threats" type="VBoxContainer" parent="left"]
+[node name="absichts" type="VBoxContainer" parent="left"]
 layout_mode = 2
+alignment = 1
 
 [node name="right" type="HBoxContainer" parent="."]
 layout_mode = 2
 alignment = 1
 
-[node name="threats" type="VBoxContainer" parent="right"]
+[node name="absichts" type="VBoxContainer" parent="right"]
 layout_mode = 2
+alignment = 1
 
 [node name="kessels" type="VBoxContainer" parent="right"]
 layout_mode = 2
+alignment = 1

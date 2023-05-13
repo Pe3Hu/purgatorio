@@ -1,7 +1,7 @@
 extends Node
 
 
-#Слуга
+#Слуга diener
 class Diener:
 	var word = {}
 	var num = {}
@@ -12,7 +12,7 @@ class Diener:
 	func _init(input_) -> void:
 		obj.wirt = input_.wirt
 		init_schaufensterpuppe()
-		init_kämpfer()
+		init_koch()
 		init_scene()
 		set_specialty()
 
@@ -23,10 +23,10 @@ class Diener:
 		obj.schaufensterpuppe = Classes_3.Schaufensterpuppe.new(input)
 
 
-	func init_kämpfer() -> void:
+	func init_koch() -> void:
 		var input = {}
 		input.diener = self
-		obj.kämpfer = Classes_4.Kämpfer.new(input)
+		obj.koch = Classes_4.Koch.new(input)
 
 
 	func init_scene() -> void:
@@ -38,7 +38,7 @@ class Diener:
 		word.specialty = obj.wirt.word.archetype+" minion"
 
 
-#Хозяин
+#Хозяин wirt
 class Wirt:
 	var word = {}
 	var obj = {}
@@ -102,3 +102,8 @@ class Wirt:
 				
 				var ausstattung = Classes_3.Ausstattung.new(input)
 				diener.obj.schaufensterpuppe.equip_ausstattung(ausstattung)
+
+
+	func get_side() -> String:
+		var a = obj.kessel.obj.küche.dict.kessel
+		return obj.kessel.obj.küche.dict.kessel[obj.gottheit].front().word.side

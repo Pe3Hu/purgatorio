@@ -10,6 +10,7 @@ var node = {}
 var flag = {}
 var vec = {}
 var scene = {}
+var theme = {}
 var stats = {}
 
 
@@ -67,23 +68,25 @@ func init_dict() -> void:
 
 func init_wertmarkes() -> void:
 	dict.wertmarke = {}
-	var max_pow = 4
-	var source = "physical"
-	dict.wertmarke[source] = []
+	arr.source = ["physical","fire"]
+	var max_pow = 6
 	
-	for _i in range(2,max_pow,1):
-		var value = pow(_i,2)
-		dict.wertmarke[source].append(value)
+	for source in arr.source:
+		dict.wertmarke[source] = []
 		
-	var arr_ = []
-	arr_.append({"weight": 3, "value": 3})
-	arr_.append({"weight": 7, "value": 7})
-	arr_.append({"weight": 15, "value": 15})
+		for _i in range(2,max_pow,1):
+			var value = pow(_i,2)-1
+			dict.wertmarke[source].append(value)
+		
+	#var arr_ = [3,7,15]
+	#arr_.append({"weight": 3, "value": 3})
+	#arr_.append({"weight": 7, "value": 7})
+	#arr_.append({"weight": 15, "value": 15})
 	#arr_.append({"weight": 4, "value": 4000})
 	#arr_.append({"weight": 3, "value": 2500})
 	#arr_.append({"weight": 3, "value": 2000})
-	var r = backpacking_options(arr_, 41)
-	print(r)
+	#var r = backpacking_options(arr_, 22)
+	#print(r)
 
 
 func init_title() -> void:
@@ -151,7 +154,9 @@ func init_scene() -> void:
 	scene.küche = load("res://scene/1/küche.tscn")
 	scene.kessel = load("res://scene/1/kessel.tscn")
 	scene.diener = load("res://scene/2/diener.tscn")
-	scene.bedrohung = load("res://scene/4/bedrohung.tscn")
+	scene.absicht = load("res://scene/4/absicht.tscn")
+	scene.bedrohungs = load("res://scene/4/bedrohungs.tscn")
+	scene.stapel = load("res://scene/4/stapel.tscn")
 	scene.wertmarke = load("res://scene/4/wertmarke.tscn")
 
 
@@ -160,6 +165,29 @@ func init_vec():
 	vec.size.kessel = Vector2(72, 72)
 	
 	init_window_size()
+
+
+func init_theme():
+	for source in arr.source:
+		var n = 24
+		var style_box = StyleBoxFlat.new()
+		style_box.corner_radius_top_left = n
+		style_box.corner_radius_top_right = n
+		style_box.corner_radius_bottom_left = n
+		style_box.corner_radius_bottom_right = n
+		var color = Color() 
+		
+		match source:
+			"physical":
+				color = Color("white")
+			"fire":
+				color = Color("red")
+		
+		style_box.resource_local_to_scene = true
+		style_box.bg_color = color
+		theme[source] = style_box
+	
+	return
 
 
 func init_window_size():
@@ -176,6 +204,7 @@ func _ready() -> void:
 	init_node()
 	init_scene()
 	init_vec()
+	init_theme()
 
 
 func get_random_element(array_: Array):
@@ -384,7 +413,7 @@ func get_gaussian_distribution(scale_: int):
 	return abs(round(distribution*scale_))
 
 
-func backpacking_options(arr_: Array, max_capacity: int):
+func backpacking_options_advanced(arr_: Array, max_capacity: int):
 	var indexs = []
 	var tree = [[]]
 	
@@ -447,3 +476,72 @@ func backpacking_options(arr_: Array, max_capacity: int):
 			bests.append(data.indexs)
 	
 	return bests
+
+
+func backpacking_options(weights_: Array, max_capacity: int):
+	var indexs = []
+	var tree = [[]]
+	
+	for _i in weights_.size():
+		if max_capacity >= weights_[_i]:
+			var branch_ = {}
+			branch_.indexs = [_i]
+			branch_.weight = weights_[_i]
+			tree[0].append(branch_)
+	
+	var flag = true
+	
+	while flag:
+		flag = false
+		var branchs = tree.back()
+		var buds = []
+		
+		for branch in branchs:
+			var end_branch = true
+			
+			for _i in weights_.size():
+				if _i >= branch.indexs.back() and max_capacity >= weights_[_i]:
+					var branch_ = {}
+					branch_.indexs = []
+					branch_.indexs.append_array(branch.indexs)
+					branch_.indexs.append(_i)
+					branch_.weight = weights_[_i]+branch.weight
+					
+					if max_capacity > branch_.weight:
+						buds.append(branch_) 
+						flag = true
+						end_branch = false
+			
+			if end_branch:
+				indexs.append((branch.indexs))
+		
+		if buds.size() > 0:
+			tree.append(buds)
+		else:
+			flag = false
+	
+	var datas = []
+	
+	for indexs_ in indexs:
+		var data = {}
+		data.indexs = indexs_
+		data.weight = 0
+		
+		for index in indexs_:
+			data.weight += weights_[index]
+		
+		datas.append(data)
+	
+	datas.sort_custom(func(a, b): return a.weight > b.weight)
+	var best_results = []
+	
+	for data in datas:
+		if data.weight == datas.front().weight:
+			var weights = []
+			
+			for _i in data.indexs:
+				weights.append(weights_[_i])
+			
+			best_results.append(weights)
+	
+	return best_results

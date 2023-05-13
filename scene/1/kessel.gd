@@ -24,4 +24,4 @@ func update_columns() -> void:
 
 func stir() -> void:
 	for diener in get_children():
-		diener.parent.obj.kämpfer.roll_attack()
+		diener.parent.obj.koch.roll_attack()
