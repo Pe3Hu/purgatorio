@@ -16,6 +16,31 @@ var stats = {}
 
 func init_num() -> void:
 	num.index = {}
+	
+	num.wertmarke = {}
+	num.wertmarke.size = {}
+	num.wertmarke.size.x = 24
+	num.wertmarke.size.y = 24
+	num.wertmarke.size.r = {}
+	num.wertmarke.size.R = {}
+	#num.wertmarke.size.a = num.wertmarke.size.r*6/sqrt(3)
+	
+	var corners = [3,4]
+	
+	for corner in corners:
+		match corner:
+			3:
+				num.wertmarke.size.r[corner] = num.wertmarke.size.x/2
+				num.wertmarke.size.R[corner] = num.wertmarke.size.x
+				#better vision
+				num.wertmarke.size.r[corner] *= 2
+				num.wertmarke.size.R[corner] *= 1
+			4:
+				num.wertmarke.size.r[corner] = num.wertmarke.size.x/2
+				num.wertmarke.size.R[corner] = num.wertmarke.size.x/2*sqrt(2)
+				#better vision
+				num.wertmarke.size.r[corner] *= 1.5
+				num.wertmarke.size.R[corner] *= 1.5
 
 
 func init_dict() -> void:
@@ -64,6 +89,7 @@ func init_dict() -> void:
 	]
 	
 	init_wertmarkes()
+	init_bedrohung_corners()
 
 
 func init_wertmarkes() -> void:
@@ -87,6 +113,58 @@ func init_wertmarkes() -> void:
 	#arr_.append({"weight": 3, "value": 2000})
 	#var r = backpacking_options(arr_, 22)
 	#print(r)
+
+
+func init_bedrohung_corners() -> void:
+	dict.order = {}
+	dict.order.pair = {}
+	dict.order.pair["even"] = "odd"
+	dict.order.pair["odd"] = "even"
+	var corners = [3,4,6]
+	dict.bedrohung = {}
+	dict.bedrohung.corner = {}
+	dict.bedrohung.corner.vector = {}
+	
+	for corners_ in corners:
+		dict.bedrohung.corner.vector[corners_] = {}
+		dict.bedrohung.corner.vector[corners_].even = {}
+		
+		for order_ in dict.order.pair.keys():
+			dict.bedrohung.corner.vector[corners_][order_] = {}
+		
+			for _i in corners_:
+				var angle = 2*PI*_i/corners_-PI/2
+				
+				if order_ == "odd":
+					angle += PI/corners_
+				
+				var vertex = Vector2(1,0).rotated(angle)
+				dict.bedrohung.corner.vector[corners_][order_][_i] = vertex
+	
+	init_bedrohung_corner_description()
+	
+
+
+func init_bedrohung_corner_description() -> void:
+	dict.bedrohung.corner.description = {}
+	var path = "res://asset/json/bedrohung_corner_data.json"
+	var array = load_data(path)
+	
+	for dict_ in array:
+		var indexs = []
+		
+		for key in dict_.keys():
+			if "corner" in key and dict_[key] == 1:
+				var index = int(key.right(1))
+				indexs.append(index)
+		
+		if !dict.bedrohung.corner.description.keys().has(dict_["scope"]):
+			dict.bedrohung.corner.description[dict_["scope"]] = {}
+			
+		if !dict.bedrohung.corner.description[dict_["scope"]].keys().has(dict_["criterion"]):
+			dict.bedrohung.corner.description[dict_["scope"]][dict_["criterion"]] = {}
+		
+		dict.bedrohung.corner.description[dict_["scope"]][dict_["criterion"]][dict_["extreme"]] = indexs
 
 
 func init_title() -> void:
@@ -443,7 +521,7 @@ func backpacking_options_advanced(arr_: Array, max_capacity: int):
 					branch_.indexs.append(_i)
 					branch_.weight = leaf.weight+branch.weight
 					
-					if max_capacity > branch_.weight:
+					if max_capacity >= branch_.weight:
 						buds.append(branch_) 
 						flag = true
 						end_branch = false
@@ -507,7 +585,7 @@ func backpacking_options(weights_: Array, max_capacity: int):
 					branch_.indexs.append(_i)
 					branch_.weight = weights_[_i]+branch.weight
 					
-					if max_capacity > branch_.weight:
+					if max_capacity >= branch_.weight:
 						buds.append(branch_) 
 						flag = true
 						end_branch = false

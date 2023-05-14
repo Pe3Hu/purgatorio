@@ -15,4 +15,4 @@ func set_wertmarke() -> void:
 
 
 func update_stack() -> void:
-	$HBoxContainer/LabelContainer/Stack .text = "x"+str(1)
+	$HBoxContainer/LabelContainer/Stack.text = "x"+str(parent.num.stack)

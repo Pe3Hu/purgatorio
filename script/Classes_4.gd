@@ -23,12 +23,14 @@ class Wertmarke:
 
 #стек жетонов stapel
 class Stapel:
+	var num = {}
 	var arr = {}
 	var obj = {}
 	var scene = {}
 
 
 	func _init(input_) -> void:
+		num.stack = input_.stack
 		arr.parent = input_.parents
 		obj.wertmarke = input_.wertmarke
 		obj.absicht = input_.absicht
@@ -73,12 +75,13 @@ class Bedrohung:
 		num.value = input_.value
 		word.source = input_.source
 		word.side = input_.side
-		word.target = input_.target
+		word.criterion = input_.criterion
+		word.extreme = input_.extreme
 		word.scope = input_.scope
 
 
-#Повар koch 
-class Koch:
+#Официант Повар kellner 
+class Kellner:
 	var word = {}
 	var obj = {}
 	var scene = {}
@@ -99,7 +102,8 @@ class Koch:
 		var input = {}
 		input.diener = obj.diener
 		input.side = obj.diener.obj.wirt.get_side()
-		input.target = "min hp"
+		input.criterion = "resentment"
+		input.extreme = "max"
 		input.scope = "diener"
 		var damage = obj.diener.obj.schaufensterpuppe.num.indicator.damage.current
 		var sources = ["physical","fire"]
@@ -109,11 +113,9 @@ class Koch:
 		var kits = Global.backpacking_options(values, damage)
 		
 		if kits.size() > 0:
-			input.values = kits.front()
+			input.values = kits.back()
 			
 			for value in input.values:
 				input.value = value
 				var bedrohung = Classes_4.Bedrohung.new(input)
-				obj.diener.obj.wirt.obj.kessel.obj.küche.obj.kellner.arr.bedrohung.append(bedrohung)
-				
-		#print(damage,obj.diener.obj.schaufensterpuppe.num.indicator.damage)
+				obj.diener.obj.wirt.obj.kessel.obj.küche.obj.oberkellner.arr.bedrohung.append(bedrohung)

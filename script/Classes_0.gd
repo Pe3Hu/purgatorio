@@ -10,6 +10,17 @@ class Besitz:
 		obj.küche = input_.küche
 
 
+#Повар kellner 
+class Kellner:
+	var word = {}
+	var obj = {}
+	var scene = {}
+
+
+	func _init(input_) -> void:
+		obj.gottheit = input_.gottheit
+
+
 #Божество
 class Gottheit:
 	var arr = {}
@@ -19,7 +30,14 @@ class Gottheit:
 	func _init(input_) -> void:
 		obj.paradies = input_.paradies
 		obj.küche = null
+		init_kellner()
 		init_wirts()
+
+
+	func init_kellner() -> void:
+		var input = {}
+		input.gottheit = self
+		obj.kellner = Classes_0.Kellner.new(input)
 
 
 	func init_wirts() -> void:

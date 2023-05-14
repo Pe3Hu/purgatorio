@@ -33,14 +33,14 @@ class Ausstattung:
 			"weapon":
 				match num.size:
 					3:
-						num.bonus["damage min"] = 0#3
+						num.bonus["damage min"] = 3
 						num.bonus["damage max"] = 15
 					2:
-						num.bonus["damage min"] = 0#1
-						num.bonus["damage max"] = 7#7
+						num.bonus["damage min"] = 1
+						num.bonus["damage max"] = 11#7
 					1:
 						num.bonus["damage min"] = 0
-						num.bonus["damage max"] = 5#4
+						num.bonus["damage max"] = 4
 
 
 	func apply_bonus() -> void:

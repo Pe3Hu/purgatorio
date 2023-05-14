@@ -30,6 +30,7 @@ func init_bedrohungs() -> void:
 			if bedrohung.num.value == wertmarke_input.value and bedrohung.word.source == wertmarke_input.source:
 				input.parents.append(bedrohung.obj.parent)
 		
+		input.stack = input.parents.size()
 		var stapel = Classes_4.Stapel.new(input)
 		input.wertmarke.obj.stapel = stapel
 		parent.arr.stapel.append(stapel)

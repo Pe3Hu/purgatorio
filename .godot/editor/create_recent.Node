@@ -1,10 +1,10 @@
+ColorRect
 Label
 MarginContainer
 HBoxContainer
 Polygon2D
 Node2D
 Panel
-ColorRect
 VBoxContainer
 GridContainer
 Timer

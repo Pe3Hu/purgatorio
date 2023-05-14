@@ -4,7 +4,7 @@ extends Node
 func _ready() -> void:
 	Global.obj.paradies = Classes_0.Paradies.new()
 	Global.obj.hölle = Classes_1.Hölle.new()
-	Global.obj.hölle.arr.küche.front().obj.kellner.stir_dieners_into_kessels()
+	Global.obj.hölle.arr.küche.front().obj.oberkellner.stir_dieners_into_kessels()
 	#datas.sort_custom(func(a, b): return a.value < b.value) 012
 
 

@@ -12,7 +12,7 @@ class Diener:
 	func _init(input_) -> void:
 		obj.wirt = input_.wirt
 		init_schaufensterpuppe()
-		init_koch()
+		init_kellner()
 		init_scene()
 		set_specialty()
 
@@ -23,10 +23,10 @@ class Diener:
 		obj.schaufensterpuppe = Classes_3.Schaufensterpuppe.new(input)
 
 
-	func init_koch() -> void:
+	func init_kellner() -> void:
 		var input = {}
 		input.diener = self
-		obj.koch = Classes_4.Koch.new(input)
+		obj.kellner = Classes_4.Kellner.new(input)
 
 
 	func init_scene() -> void:

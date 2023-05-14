@@ -1,7 +1,7 @@
 extends Node
 
 
-#Котел
+#Котел kessel
 class Kessel:
 	var word = {}
 	var obj = {}
@@ -22,8 +22,8 @@ class Kessel:
 		obj.küche.scene.myself.add_kessel(self)
 
 
-#Повар kellner
-class Kellner:
+#Метрдотель oberkellner 
+class Oberkellner:
 	var arr = {}
 	var dict = {}
 	var obj = {}
@@ -57,7 +57,8 @@ class Kellner:
 			var bedrohung = arr.bedrohung.pop_front()
 			var condition = {}
 			condition.side = bedrohung.word.side
-			condition.target = bedrohung.word.target
+			condition.criterion = bedrohung.word.criterion
+			condition.extreme = bedrohung.word.extreme
 			condition.scope = bedrohung.word.scope
 			
 			if dict.condition.keys().has(condition):
@@ -85,14 +86,14 @@ class Küche:
 		obj.hölle = input_.hölle
 		dict.side = {}
 		dict.kessel = {}
-		init_kellner()
+		init_oberkellner()
 		init_scene()
 
 
-	func init_kellner() -> void:
+	func init_oberkellner() -> void:
 		var input = {}
 		input.küche = self
-		obj.kellner = Classes_1.Kellner.new(input)
+		obj.oberkellner = Classes_1.Oberkellner.new(input)
 
 
 	func init_scene() -> void:
@@ -114,7 +115,7 @@ class Küche:
 			dict.kessel[gottheit_] = []
 			
 			for wirt in gottheit_.arr.wirt:
-				obj.kellner.get_kessel_for(wirt)
+				obj.oberkellner.get_kessel_for(wirt)
 		else:
 			print("error add_gottheit: gottheits size > 2")
 
