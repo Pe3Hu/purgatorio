@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://tiu625irnnwp"]
+[gd_scene load_steps=3 format=3 uid="uid://c1o5004thtnit"]
 
-[ext_resource type="Script" path="res://scene/1/cradle.gd" id="1_3gs5w"]
+[ext_resource type="Script" path="res://scene/1/chef.gd" id="1_ybakk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
-[node name="Cradle" type="MarginContainer"]
+[node name="Chef" type="MarginContainer"]
 custom_minimum_size = Vector2(5, 5)
 anchors_preset = 8
 anchor_left = 0.5
@@ -19,13 +19,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_3gs5w")
+script = ExtResource("1_ybakk")
 
 [node name="BG" type="Panel" parent="."]
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 
-[node name="Chefs" type="HBoxContainer" parent="."]
+[node name="Assistants" type="VBoxContainer" parent="."]
 layout_mode = 2
 alignment = 1

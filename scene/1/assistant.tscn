@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1o5004thtnit"]
+[gd_scene load_steps=3 format=3 uid="uid://b6xt38h3tpi5k"]
 
-[ext_resource type="Script" path="res://scene/1/pantheon.gd" id="1_5reqs"]
+[ext_resource type="Script" path="res://scene/1/assistant.gd" id="1_q5bfm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
-[node name="Pantheon" type="MarginContainer"]
+[node name="Assistant" type="MarginContainer"]
 custom_minimum_size = Vector2(5, 5)
 anchors_preset = 8
 anchor_left = 0.5
@@ -19,13 +19,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_5reqs")
+script = ExtResource("1_q5bfm")
 
 [node name="BG" type="Panel" parent="."]
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
-
-[node name="Gods" type="VBoxContainer" parent="."]
-layout_mode = 2
-alignment = 1

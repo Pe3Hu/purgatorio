@@ -25,6 +25,7 @@ func _ready() -> void:
 func init_arr() -> void:
 	arr.edge = [1, 2, 3, 4, 5, 6]
 	arr.side = ["left", "right"]
+	arr.quartet = ["verse", "interlude", "apotheosis", "mana"]
 
 
 func init_num() -> void:
@@ -107,27 +108,34 @@ func init_node() -> void:
 
 
 func init_scene() -> void:
-	scene.pantheon = load("res://scene/1/pantheon.tscn")
-	scene.god = load("res://scene/1/god.tscn")
-	
+	scene.chef = load("res://scene/1/chef.tscn")
+	scene.assistant = load("res://scene/1/assistant.tscn")
+	scene.waiter = load("res://scene/1/waiter.tscn")
 	
 	scene.kitchen = load("res://scene/2/kitchen.tscn")
 	scene.cauldron = load("res://scene/2/cauldron.tscn")
 	scene.section = load("res://scene/2/section.tscn")
+	
+	scene.spell = load("res://scene/3/spell.tscn")
+	
+	scene.health = load("res://scene/4/health.tscn")
+	scene.indicator = load("res://scene/4/indicator.tscn")
 
 
 func init_vec():
 	vec.size = {}
 	vec.size.letter = Vector2(20, 20)
 	vec.size.icon = Vector2(48, 48)
-	vec.size.number = Vector2(5, 32)
 	vec.size.sixteen = Vector2(16, 16)
+	vec.size.number = vec.size.sixteen#Vector2(5, 32)
 	
 	vec.size.aspect = Vector2(32, 32)
 	vec.size.box = Vector2(100, 100)
-	vec.size.bar = Vector2(120, 12)
 	
 	vec.size.section = Vector2(24, 24)
+	vec.size.quartet = Vector2(72, 72)
+	vec.size.bar = Vector2(vec.size.section)
+	vec.size.marker = Vector2(vec.size.section)
 	
 	init_window_size()
 

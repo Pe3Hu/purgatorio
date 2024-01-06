@@ -1,10 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://tiu625irnnwp"]
+[gd_scene load_steps=4 format=3 uid="uid://c7ijf10wn756y"]
 
-[ext_resource type="Script" path="res://scene/1/cradle.gd" id="1_3gs5w"]
+[ext_resource type="Script" path="res://scene/3/spell.gd" id="1_dst6s"]
+[ext_resource type="PackedScene" uid="uid://b0vn6ioedqwkf" path="res://scene/3/quartet.tscn" id="2_lpw6l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
-[node name="Cradle" type="MarginContainer"]
+[node name="Spell" type="MarginContainer"]
 custom_minimum_size = Vector2(5, 5)
 anchors_preset = 8
 anchor_left = 0.5
@@ -19,13 +20,12 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_3gs5w")
+script = ExtResource("1_dst6s")
 
 [node name="BG" type="Panel" parent="."]
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 
-[node name="Chefs" type="HBoxContainer" parent="."]
+[node name="Quartet" parent="." instance=ExtResource("2_lpw6l")]
 layout_mode = 2
-alignment = 1

@@ -1,7 +1,7 @@
 extends MarginContainer
 
 
-@onready var pantheons = $Pantheons
+@onready var chefs = $Chefs
 
 var sketch = null
 
@@ -9,14 +9,14 @@ var sketch = null
 func set_attributes(input_: Dictionary) -> void:
 	sketch = input_.sketch
 	
-	init_pantheons()
+	init_chefs()
 
 
-func init_pantheons() -> void:
+func init_chefs() -> void:
 	for _i in 1:
 		var input = {}
 		input.cradle = self
 	
-		var pantheon = Global.scene.pantheon.instantiate()
-		pantheons.add_child(pantheon)
-		pantheon.set_attributes(input)
+		var chef = Global.scene.chef.instantiate()
+		chefs.add_child(chef)
+		chef.set_attributes(input)

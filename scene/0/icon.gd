@@ -12,7 +12,7 @@ func set_attributes(input_: Dictionary) -> void:
 	type = input_.type
 	subtype = input_.subtype
 	
-	custom_minimum_size = Vector2(Global.vec.size.letter)
+	custom_minimum_size = Vector2(Global.vec.size.sixteen)#Vector2(Global.vec.size.letter)
 	var path = "res://asset/png/"
 	var exceptions = ["number"]
 	

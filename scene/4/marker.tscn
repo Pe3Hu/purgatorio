@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkxclmnxogvnk"]
+[gd_scene load_steps=4 format=3 uid="uid://bt7xgf5pgrffb"]
 
-[ext_resource type="Script" path="res://scene/2/desk.gd" id="1_a2b7y"]
-[ext_resource type="PackedScene" uid="uid://byhb728unpjyf" path="res://scene/3/grimoire.tscn" id="2_04fof"]
+[ext_resource type="Script" path="res://scene/4/marker.gd" id="1_4gkrs"]
+[ext_resource type="PackedScene" uid="uid://ciw38iqel0v5a" path="res://scene/0/icon.tscn" id="2_w1i70"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
-[node name="Desk" type="MarginContainer"]
+[node name="Marker" type="MarginContainer"]
 custom_minimum_size = Vector2(5, 5)
 anchors_preset = 8
 anchor_left = 0.5
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_a2b7y")
+script = ExtResource("1_4gkrs")
 
 [node name="BG" type="Panel" parent="."]
 visible = false
@@ -31,9 +31,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 layout_mode = 2
 alignment = 1
 
-[node name="Cauldrons" type="VBoxContainer" parent="HBox"]
+[node name="Assistant" parent="HBox" instance=ExtResource("2_w1i70")]
 layout_mode = 2
-alignment = 1
 
-[node name="Grimoire" parent="HBox" instance=ExtResource("2_04fof")]
+[node name="Order" parent="HBox" instance=ExtResource("2_w1i70")]
 layout_mode = 2

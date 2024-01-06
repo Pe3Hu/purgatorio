@@ -1,9 +1,9 @@
 extends MarginContainer
 
 
-var pantheon = null
+var chef = null
 
 
 func set_attributes(input_: Dictionary) -> void:
-	pantheon = input_.pantheon
+	chef = input_.chef
 
